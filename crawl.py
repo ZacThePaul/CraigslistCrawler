@@ -121,8 +121,6 @@ soup = bs(requests.get(url).content, 'html.parser')
 
 def gig_search(terms, intended_url, page_count=None):
 
-    print('thinking...')
-
     if page_count:
         counter = 0
         for key, value in pages.items():
