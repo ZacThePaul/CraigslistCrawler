@@ -22,7 +22,20 @@ class Crawler:
 
 			for listing in titles:
 				self.complete_list[listing.text] = (listing['href'])
-				
+
+	def home_search(self, intended_url, min_price, max_price):
+
+		new_url = intended_url + '?min_price=' + str(min_price) + '&max_price=' + str(max_price)  + '&pets_cat=1'
+
+		soup = BeautifulSoup(requests.get(new_url).content, 'html.parser')
+
+		titles = soup.findAll("a", {"class": "result-title"})
+
+		print(new_url)
+
+		for title in titles:
+			print(title.text + ' : ' + title['href'])
+
 	def sort_cities(self, starting_point):
 
 		print('Counter = ' + str(self.counter))
@@ -97,8 +110,9 @@ class Crawler:
 
 crawler = Crawler()
 
-crawler.sort_cities('boston')
+# crawler.sort_cities('boston')
 # crawler.gig_search('https://losangeles.craigslist.org/d/gigs/search/ggg', ['Church'], 3)
+crawler.home_search('https://boston.craigslist.org/search/apa', 600, 900)
 
 # Issue: Program was looping through each letter of the terms because I added it as a
 # string and not an array.
