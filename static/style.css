@@ -1,0 +1,46 @@
+body {
+    margin: 0;
+}
+
+.container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 30px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+a {
+    margin: 10px 0;
+    display: block;
+    text-align: center;
+}
+
+.card {
+    width: 33%;
+    margin: 10px 0;
+}
+
+.ic {
+    box-shadow: 2px 2px 3px 1px darkgray;
+    border-radius: 3px;
+    width: 85%;
+    margin: auto;
+    padding: 15px 10px;
+    height: 300px;
+    transition: box-shadow 600ms;
+    cursor: pointer;
+}
+
+.ic:hover {
+    box-shadow: 2px 2px 9px 3px darkgray;
+}
+
+.crawl-block {
+    width: 100%;
+}
+
+.search-container {
+    background-color: rgba(82, 83, 84, 0.25);
+    padding: 1.5rem;
+}

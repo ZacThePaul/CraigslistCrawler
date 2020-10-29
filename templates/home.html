@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+    <div class="container">
+
+        <h2 style="width: 100%; text-align: center">Fetch your Listings my Leige</h2>
+
+        <div class="crawl-block">
+            <label for="crawl-type">What category?</label>
+            <select name="" id="crawl-type">
+                <option value="job">Job</option>
+                <option value="gig" selected>Gig</option>
+            </select>
+        </div>
+
+        <div class="crawl-block">
+
+            <label for="crawl-days">How many days back should we look?</label>
+            <input type="number" id="crawl-days" value="7">
+
+        </div>
+
+        <div class="crawl-block">
+
+            <label for="crawl-keyword">What keywords should we search? (separate by comma)</label>
+            <input type="text" id="crawl-keyword" placeholder="type something..">
+
+        </div>
+
+        <div class="crawl-block">
+
+                <button id="fetch-listings" style="width: 50px; display: block; margin: auto">Here</button>
+
+        </div>
+
+        <span id="counter-container"></span>
+
+        <div id="listing-container" style="display:flex;width: 100%; flex-wrap: wrap">
+
+        </div>
+
+
+    </div>
+
+    <script type="text/javascript">
+
+        const listing_container = $('#listing-container');
+        const counter_container = $('#counter-container');
+
+        async function grabContent(category, days, keywords) {
+
+            let lists = await fetch('/get_listings?category=' + category + '&keywords=' + keywords + '&days=' + days);
+            let json = await lists.json();
+
+            // could do something like, once the function is called. Every 3 seconds grab data from the JSON file.
+            // Once the AJAX call returns a value kill the function and leave everything on the page.
+
+            listing_container.empty();
+            window.clearInterval();
+            listing_container.append('<h2>Done!</h2>');
+
+            for (let key of Object.keys(json)) {
+                    listing_container.append(
+                        '<div class="card">' +
+                            '<div class="ic">' +
+                                '<a href="' + json[key] + '" target="_blank">' + key + '</a>' +
+                            '</div>' +
+                        '</div>'
+                    );
+                }
+        }
+
+        $('#fetch-listings').click(function() {
+
+            listing_container.append('<h1>Heard your call, waiting for a response</h1>');
+
+            window.setInterval(async function() {
+                let jsonVar = await fetch('/json')
+                    .then(res => {
+                        res.json().then(json => {
+                            let counter = 0;
+                            listing_container.empty();
+                            counter_container.empty();
+                            for (let prop in json) {
+                                listing_container.append(
+                                    '<div class="card">' +
+                                        '<div class="ic">' +
+                                            '<a href="' + json[prop] + '" target="_blank">' + prop + '</a>' +
+                                        '</div>' +
+                                    '</div>'
+                                );
+                                counter++;
+                            }
+                            counter_container.append('displaying <strong>' + counter + '</strong> listings!')
+                        })
+                    })
+                },
+                2000
+            );
+
+            const keywords = $('#crawl-keyword').val();
+
+            const category = $('#crawl-type').val();
+            const keywordArray = keywords.split(",");
+            let cleanArray = [];
+            const searchDay = $('#crawl-days').val();
+            for(let x = 0; x < keywordArray.length; x++) {
+                let noSpace = keywordArray[x].replace(' ', '%20');
+                cleanArray.push(noSpace);
+            }
+
+            let query = cleanArray.join('-');
+
+            grabContent(category, searchDay, query);
+
+        });
+
+
+    </script>
+
+{% endblock %}}

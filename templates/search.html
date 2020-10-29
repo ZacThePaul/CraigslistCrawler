@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="search-container">
+
+    <div class="input-container">
+        <div class="what-container">
+            <label class="what-label" for="what-box">I'm looking for..</label>
+            <select id="what-box">
+                <option value="job">job</option>
+                <option value="gig">gig</option>
+                <option value="service">service</option>
+                <option value="for_sale">for sale</option>
+            </select>
+        </div>
+
+        <div class="when-container">
+            <label class="when-label" for="when-box">How far back should we look?</label>
+            <input type="text" class="when-box" id="when-box">
+            <select id="time-unit-selector">
+                <option value="days">days</option>
+                <option value="weeks">weeks</option>
+                <option value="months">months</option>
+            </select>
+        </div>
+
+        <div class="where-container">
+
+            <label class="where-label" for="where-box">Any specific location?</label>
+            <select id="where-box">
+                <option value="all">All cities in US</option>
+                <option value="westernmass">Western Mass</option>
+            </select>
+
+        </div>
+
+        <div class="keyword-container">
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
